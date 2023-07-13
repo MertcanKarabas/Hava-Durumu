@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hava Durumu</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div id="bolge">
+        <p>Bölge Seç</p>
+        <input type="text" id="inputOfRegion" placeholder="Lütfen bir il veya ilçe yazınız.">
+        <button id="girisBtn">Giriş</button>
+    </div>
+
+    <div id="header">
+        
+        <div class="weather-info">
+            <img id="imageOfWeather" src="ICONS/sunny-3-512.png" alt="hava durumu">
+            <div class="temperature">
+                <h3 id="degree">?</h3>
+                <a id="celcius">°C</a>
+                <a>|</a>
+                <a id="fahrenheit">°F</a>
+            </div>
+        </div>
+        <div>
+            <h4 id="location">Istanbul</h4>
+        </div>
+        <div class="weather-details">
+            <h4 id="summaryOfDetails" class="weather-detail">Hava Durumu</h4>
+            <h5 id="date" class="weather-detail"></h5>
+            <h6 id="detailOfWeather" class="weather-detail"></h6>
+        </div>
+    </div>
+
+    <div id="graphic">
+
+    </div>
+
+    <div id="threeDaysWeather">
+        <div class="day1 days">
+            <h5>Day1</h5>
+            <img src="ICONS/sunny-3-512.png" alt="hava durumu">
+            <div class="maxMinDegree">
+                <p>33°</p>
+                <p>23°</p>
+            </div>
+        </div>
+        <div class="day2 days">
+            <h5>Day2</h5>
+            <img src="ICONS/sunny-3-512.png" alt="hava durumu">
+            <div class="maxMinDegree">
+                <p>33°</p>
+                <p>23°</p>
+            </div>
+        </div>
+        <div class="day3 days">
+            <h5>Day3</h5>
+            <img src="ICONS/sunny-3-512.png" alt="hava durumu">
+            <div class="maxMinDegree">
+                <p>33°</p>
+                <p>23°</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="Graphic.js"></script>
+    <script src="Location.js"></script>
+    <script src="Weather.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

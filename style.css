@@ -1,0 +1,140 @@
+#header {
+    display: flex;
+    font-size: larger;
+    font-family: monospace;
+    justify-content: space-around;
+}
+
+.weather-info {
+    display: flex;
+    align-items: start;
+}
+
+.weather-info img {
+    width: 75px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.temperature {
+    display: contents;
+    flex-direction: row;
+}
+
+.temperature h3 {
+    width: 75px;
+    height: 75px;
+    font-size: 350%;
+    margin: 0;
+}
+
+.temperature a {
+
+    text-decoration: none;
+
+    margin-top: 5%;
+    margin-right: 1%;
+    margin-bottom: 0;
+
+    color: gray;
+}
+
+#celcius {
+    color: black;
+}
+
+.weather-details {
+    margin-top: 0.5%;
+    margin-left: 10%;
+    text-align: right;
+
+}
+
+.weather-detail {
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+
+.weather-details h5,
+.weather-details h6 {
+    color: grey;
+    font-size: small;
+}
+
+#bolge {
+    font-family: monospace;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#inputOfRegion {
+    margin-inline: 2%;
+    padding: 7px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#inputOfRegion:focus {
+    outline: none;
+    box-shadow: 0 0 5px dodgerblue;
+}
+
+#girisBtn {
+    padding: 7px 20px;
+      font-size: 16px;
+      background-color: dodgerblue;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+}
+
+#girisBtn:hover {
+    background-color: deepskyblue;
+}
+
+#girisBtn:active {
+    background-color: darkblue;
+}
+
+#threeDaysWeather {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.days {
+    display: flex;
+    height: 150px;
+    width: 75px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.days:hover {
+    background-color: #fff0f0;
+}
+
+.days img {
+    width: 85%;
+    height: auto;
+}
+
+.days h5 {
+    margin-bottom: 10%;
+}
+.maxMinDegree {
+    display: flex;
+}
+
+.maxMinDegree p {
+    margin: 2px;
+}
