@@ -23,7 +23,7 @@ class Weather {
                 let locationFromData = `${this.weatherData.location.name}/${this.weatherData.location.region}`;
                 let fahrenheitDegree = Math.floor(this.weatherData.current.temp_f);
                 let celciusDegree = Math.floor(this.weatherData.current.temp_c);
-
+                let forecastdays = this.weatherData.forecast.forecastday;
                 degree.innerHTML = celciusDegree
                 date.innerHTML = changeDatetoDayAndHour(this.weatherData.current.last_updated);
                 detailOfWeather.innerHTML = this.weatherData.current.condition.text;
@@ -31,9 +31,9 @@ class Weather {
 
 
                 changeImage(conditionText, sunset, sunrise);
-                changeToFahrenheit(fahrenheitDegree);
-                changeToCelcius(celciusDegree);
-
+                changeToFahrenheit(fahrenheitDegree, forecastdays);
+                changeToCelcius(celciusDegree, forecastdays);
+                daysOfWeather(forecastdays, 0);
                 /*let graph = new Graphic(this.weatherData);
                 google.charts.load('current', { packages: ['corechart'] });
                 google.charts.setOnLoadCallback(graph.drawChart);*/
@@ -52,33 +52,36 @@ class Weather {
 
 }
 
-function changeToCelcius(celciusDegree) {
+function changeToCelcius(celciusDegree, detailOfWeather) {
     celcius.addEventListener("click", () => {
         degree.textContent = celciusDegree;
         celcius.style.color = "black";
         fahrenheit.style.color = "grey";
+        daysOfWeather(detailOfWeather, 0);
     });
-}
+}   
 
-function changeToFahrenheit(fahrenheitDegree) {
+function changeToFahrenheit(fahrenheitDegree, detailOfWeather) {
     fahrenheit.addEventListener("click", () => {
         degree.textContent = fahrenheitDegree
         fahrenheit.style.color = "black";
         celcius.style.color = "grey";
+        daysOfWeather(detailOfWeather, 1);
     });
 }
 
 const daysLong = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 const daysShort = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
 const ImagesOfWeathersDayTime = new Map([
+    ["Açık", "ICONS/sunny-3-512.png"],
     ["Güneşli", "ICONS/sunny-3-512.png"],
     ["Bulutlu", "ICONS/cloudy-7-512.png"],
     ["Parçalı Bulutlu", "ICONS/cloudy-sunny-512.png"],
-    ["Yağmurlu", "ICONS/rain-16-512.png"],
+    ["Orta kuvvetli yağmurlu", "ICONS/rain-16-512.png"],
     ["Şiddetli Yağmur", "ICONS/rain-heavy-512.png"],
     ["Hafif yağmurlu", "ICONS/rain-light-512.png"],
     ["Sağnak Yağışlı", "ICONS/rain-storm-512.png"],
-    ["Kısa Süreli Yağmur", "ICONS/shower-3-512.png"],
+    ["Bölgesel düzensiz yağmur yağışlı", "ICONS/shower-3-512.png"],
     ["Sulu Kar", "ICONS/sleet-5-512.png"],
     ["Karlı", "ICONS/snow-15-512.png"],
     ["Şiddetli Kar", "ICONS/snow-heavy-512.png"],
@@ -90,9 +93,10 @@ const ImagesOfWeathersDayTime = new Map([
 
 const ImagesOfWeathersNight = new Map([
     ["Parçalı Bulutlu", "ICONS/cloudy-sunny-night-512.png"],
-    ["Kısa Süreli Yağmur", "ICONS/shower-night-512.png"],
+    ["Bölgesel düzensiz yağmur yağışlı", "ICONS/shower-night-512.png"],
     ["Kısa Süreli Kar", "ICONS/snow-shower-night-512.png"],
-    ["Güneşli", "ICONS/sunny-night-512.png"]
+    ["Açık", "ICONS/sunny-night-512.png"],
+    ["Güneşli", "ICONS/sunny-3-512.png"]
 ]);
 
 function changeDatetoDayAndHour(date) {
@@ -122,8 +126,8 @@ function changeImage(detailOfWeather, sunset, sunrise) {
     img.alt = "hava durumu";
 
     let currentDate = new Date();
-    let h = currentDate.getHours();
-    let m = currentDate.getMinutes();
+    let currentHour = currentDate.getHours();
+    let currentMinute = currentDate.getMinutes();
 
     let sunriseSplitted = sunrise.split(" ");
     let sunsetSplitted = sunset.split(" ");
@@ -137,33 +141,13 @@ function changeImage(detailOfWeather, sunset, sunrise) {
     let sunsetHour = parseInt(sunsetTimeSplitted[0]) + 12;
     let sunsetMinute = parseInt(sunsetTimeSplitted[1]);
 
-    //gündüz vakti
-    
-    /*if ((h > sunriseHour && h < sunsetHour) || (h == sunriseHour && m > sunriseMinute) || (h == sunsetHour && m < sunsetMinute)) {
-        ImagesOfWeathersDayTime.forEach((value, key) => {
-            if (detailOfWeather === key) {
-                img.src = value;
-            }
-        });
-
-        //gece vakti
-    } else if ((h == sunriseHour && m < sunriseMinute) || (h == sunsetHour && m > sunsetMinute) || (h > sunsetHour) || (h < sunriseHour)) {
-        ImagesOfWeathersNight.forEach((key, value) => {
-            if (detailOfWeather === key) {
-                img.src = value;
-            }
-        })
-    } 
-    */
-
-    findImage(sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, h, m, img);
+    findImage(detailOfWeather, sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, currentHour, currentMinute, img);
     weatherInfo.appendChild(img);
     weatherInfo.appendChild(tempTempInfo);
 
 }
 
-function findImage(sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, currentHour, currentMinute, img) {
-    
+function findImage(detailOfWeather, sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, currentHour, currentMinute, img) {
     //gündüz vakti
     if ((currentHour > sunriseHour && currentHour < sunsetHour) || (currentHour == sunriseHour && currentMinute > sunriseMinute) || (currentHour == sunsetHour && currentMinute < sunsetMinute)) {
         ImagesOfWeathersDayTime.forEach((value, key) => {
@@ -172,9 +156,9 @@ function findImage(sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, current
             }
         });
 
-    //gece vakti
-    } else if ((currentHour == sunriseHour && m < sunriseMinute) || (currentHour == sunsetHour && m > sunsetMinute) || (currentHour > sunsetHour) || (currentHour < sunriseHour)) {
-        ImagesOfWeathersNight.forEach((key, value) => {
+        //gece vakti
+    } else if ((currentHour == sunriseHour && currentMinute < sunriseMinute) || (currentHour == sunsetHour && currentMinute > sunsetMinute) || (currentHour > sunsetHour) || (currentHour < sunriseHour)) {
+        ImagesOfWeathersNight.forEach((value, key) => {
             if (detailOfWeather === key) {
                 img.src = value;
             }
@@ -182,28 +166,77 @@ function findImage(sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, current
     } else {
         img.src = "ICONS/somethingWrong.png;";
     }
+
 }
 
-function daysOfWeather(detailOfWeather) {
-    /*
-    <div class="day1 days">
-            <h5>Day1</h5>
-            <img src="ICONS/sunny-3-512.png" alt="hava durumu">
-            <div class="maxMinDegree">
-                <p>33°</p>
-                <p>23°</p>
-            </div>
-        </div>
-    */
+function daysOfWeather(detailOfWeather, typeOfDegree) {
 
-    detailOfWeather.forEach(value => {
-        let day = document.createElement("div");
-        day.className = `day${value} days`;
-
-        let h5 = document.createElement("h5");
-        let img = document.createElement("img");
+    let days = Array.from(threeDaysOfWeather.children);
+    days.forEach(value => {
+        value.remove();
     });
 
 
-    img.src
+    let mainDiv = document.querySelector("#threeDaysWeather");
+    detailOfWeather.forEach((value, index) => {
+        let maxTemp;
+        let minTemp;
+
+        if (typeOfDegree === 0) {
+            maxTemp = Math.floor(value.day.maxtemp_c);
+            minTemp = Math.floor(value.day.mintemp_c);
+        } else {
+            maxTemp = Math.floor(value.day.maxtemp_f);
+            minTemp = Math.floor(value.day.mintemp_f);
+        }
+
+
+        let detailOfWeather = value.day.condition.text;
+        let sunset = value.astro.sunset;
+        let sunrise = value.astro.sunrise;
+
+        let div = document.createElement("div");
+        div.className = `day${index} days`;
+
+        let h5 = document.createElement("h5");
+        h5.textContent = changeDateToDay(value.date);
+
+        let img = document.createElement("img");
+
+        let currentDate = new Date();
+        let currentHour = currentDate.getHours();
+        let currentMinute = currentDate.getMinutes();
+
+        let sunriseSplitted = sunrise.split(" ");
+        let sunsetSplitted = sunset.split(" ");
+
+        let sunriseTimeSplitted = sunriseSplitted[0].split(":");
+        let sunsetTimeSplitted = sunsetSplitted[0].split(":");
+
+        let sunriseHour = parseInt(sunriseTimeSplitted[0]);
+        let sunriseMinute = parseInt(sunriseTimeSplitted[1]);
+
+        let sunsetHour = parseInt(sunsetTimeSplitted[0]) + 12;
+        let sunsetMinute = parseInt(sunsetTimeSplitted[1]);
+
+        findImage(detailOfWeather, sunsetHour, sunriseHour, sunsetMinute, sunriseMinute, currentHour, currentMinute, img);
+
+        let div2 = document.createElement("div");
+        div2.className = "maxMinDegree";
+
+        let p1 = document.createElement("p");
+        let p2 = document.createElement("p");
+
+        p1.textContent = maxTemp + "°";
+        p2.textContent = minTemp + "°";
+
+        div2.appendChild(p1);
+        div2.appendChild(p2);
+
+        div.appendChild(h5);
+        div.appendChild(img);
+        div.appendChild(div2);
+
+        mainDiv.appendChild(div);
+    });
 }

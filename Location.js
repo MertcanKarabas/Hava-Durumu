@@ -33,7 +33,7 @@ class Location {
 
             };
             const errorCallback = (error) => {
-                console.log(error);
+                alert(error);
             };
 
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);

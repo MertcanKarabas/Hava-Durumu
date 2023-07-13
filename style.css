@@ -138,3 +138,8 @@
 .maxMinDegree p {
     margin: 2px;
 }
+
+#bolgeSec {
+    font-size: larger;
+    margin: 0;
+}
