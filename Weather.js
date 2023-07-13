@@ -29,11 +29,11 @@ class Weather {
                 detailOfWeather.innerHTML = this.weatherData.current.condition.text;
                 loc.innerHTML = locationFromData;
 
-
                 changeImage(conditionText, sunset, sunrise);
                 changeToFahrenheit(fahrenheitDegree, forecastdays);
                 changeToCelcius(celciusDegree, forecastdays);
                 daysOfWeather(forecastdays, 0);
+                changeMainDate();
                 /*let graph = new Graphic(this.weatherData);
                 google.charts.load('current', { packages: ['corechart'] });
                 google.charts.setOnLoadCallback(graph.drawChart);*/
@@ -199,9 +199,11 @@ function daysOfWeather(detailOfWeather, typeOfDegree) {
         div.className = `day${index} days`;
 
         let h5 = document.createElement("h5");
+        h5.className = "day";
         h5.textContent = changeDateToDay(value.date);
 
         let img = document.createElement("img");
+        img.className = "imageDayOfWeather";
 
         let currentDate = new Date();
         let currentHour = currentDate.getHours();
@@ -226,7 +228,8 @@ function daysOfWeather(detailOfWeather, typeOfDegree) {
 
         let p1 = document.createElement("p");
         let p2 = document.createElement("p");
-
+        p1.className = "degreeOfDay";
+        p2.className = "degreeOfDay";
         p1.textContent = maxTemp + "°";
         p2.textContent = minTemp + "°";
 
@@ -239,4 +242,38 @@ function daysOfWeather(detailOfWeather, typeOfDegree) {
 
         mainDiv.appendChild(div);
     });
+}
+
+function changeMainDate() {
+    threeDaysOfWeather.addEventListener("click", (e) => {
+        targetClassName = e.target.className;
+        let parentDiv, parentDivArray, target;
+        if(targetClassName === "day0 days" || targetClassName === "day1 days" || targetClassName === "day2 days") {
+            parentDiv = e.target.parentElement;
+            target = e.target;
+            parentDivArray = Array.from(parentDiv.children);
+            parentDivArray.forEach( (value) => {
+                value.style.backgroundColor = "#ffffff";
+            });
+            target.style.backgroundColor = "#fff0f0";
+
+        } else if(targetClassName === "maxMinDegree" || targetClassName === "imageDayOfWeather" || targetClassName === "day") {
+            parentDiv = e.target.parentElement.parentElement;
+            target = e.target.parentElement;
+            parentDivArray = Array.from(parentDiv.children);
+            parentDivArray.forEach( (value) => {
+                value.style.backgroundColor = "#ffffff";
+            });
+            target.style.backgroundColor = "#fff0f0";
+
+        } else if(targetClassName === "degreeOfDay") {
+            parentDiv = e.target.parentElement.parentElement.parentElement;
+            target = e.target.parentElement.parentElement
+            parentDivArray = Array.from(parentDiv.children);
+            parentDivArray.forEach( (value) => {
+                value.style.backgroundColor = "#ffffff";
+            });
+            target.style.backgroundColor = "#fff0f0";
+        }
+});
 }

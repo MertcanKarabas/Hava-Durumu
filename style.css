@@ -123,6 +123,10 @@
     background-color: #fff0f0;
 }
 
+.days:first-child {
+    background-color: #fff0f0;
+}
+
 .days img {
     width: 85%;
     height: auto;

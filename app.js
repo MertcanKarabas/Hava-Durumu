@@ -9,7 +9,7 @@ const loc = document.querySelector("#location");
 const girisBtn = document.querySelector("#girisBtn");
 const input = document.querySelector("#inputOfRegion");
 const threeDaysOfWeather = document.querySelector("#threeDaysWeather");
-
+let days = Array.from(document.querySelectorAll(".days"));
 
 let weather, currentLocation;
 currentLocation = new Location();
@@ -23,6 +23,7 @@ girisBtn.addEventListener("click", () => {
     }
     
 });
+
 
 
 
